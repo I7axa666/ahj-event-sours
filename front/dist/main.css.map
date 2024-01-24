@@ -1,0 +1,1 @@
+{"version":3,"file":"main.css","mappings":"AAAA;IACI,gBAAgB;AACpB,C","sources":["webpack://front/./src/css/style.css"],"sourcesContent":[".sub {\r\n    white-space: pre;\r\n}"],"names":[],"sourceRoot":""}
