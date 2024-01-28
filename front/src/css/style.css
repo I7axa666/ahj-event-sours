@@ -56,6 +56,7 @@ li {
 }
 
 #chat-window {
+    max-height: 400px;
     flex-grow: 1;
     overflow-y: auto;
 
@@ -67,9 +68,9 @@ li {
 
 .message {
     max-width: 60%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-radius: 20px;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 10px;
     word-wrap: break-word;
 }
 

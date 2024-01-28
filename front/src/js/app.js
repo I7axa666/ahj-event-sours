@@ -1,83 +1,70 @@
-const eventSource = new EventSource('http://localhost:3000/sse');
+import ForEventSource from "./es";
+import Fetcher from "./fetch";
+import ForWebSocet from './ws'
 
-eventSource.addEventListener('message', (e) => {
-    
-})
+const eventSource = new ForEventSource();
+eventSource.init();
+
+const fetcher = new Fetcher();
+const users = JSON.parse(await fetcher.getUsers());
+
+// console.log(users);
 
 const popup = document.querySelector('.popup-container');
-const btn = popup.querySelector('.action-btn')
+const btn = popup.querySelector('.action-btn');
+const participants = document.querySelector('#participants-list');
+const ul = document.querySelector('ul');
 
-btn.addEventListener('click', () => {
+const chat = document.getElementById('chat-window');
+const chatMessage = chat.querySelector('.message');
+const inputMessage = document.querySelector('.input-message');
+const chatSend = document.querySelector('.send-btn');
+
+ul.innerHTML = '';
+
+for (let key in users) {
+    const li = document.createElement('li');
+    li.id = key;
     
+    li.innerHTML = `
+        <div class="circle"></div>
+        <div class="name">${users[key]}</div>
+    `
+    document.querySelector('ul').appendChild(li);
+};
+
+btn.addEventListener('click', (event) => {
+    event.preventDefault();
+    const userName = popup.querySelector('input').value;
+
+    for (let key in users) {
+        if(users[key] === userName) {
+            document.querySelector('.error').classList.remove('hidden');
+            return;
+        }   
+    }
+
+    fetcher.sendUserName(eventSource.conectionId, userName);
+
+})
+
+const ws = new ForWebSocet(chat);
+ws.init();
+
+chatSend.addEventListener('click', (ev) => {
+    ev.preventDefault();
+    const message = inputMessage.value;
+
+    if(!message) return;
+    // console.log(message);
+    ws.sendMessage(message);
+
+    inputMessage.value = '';
 })
 
 
 
-// const ws = new WebSocket('ws://localhost:3000');
 
-// const chat = document.querySelector('.chat');
-// const chatMessage = document.querySelector('.chat-message');
-// const chatSend = document.querySelector('.chat-send');
 
-// // const eventSource = new EventSource('http://localhost:3000/sse');
 
-// // eventSource.addEventListener('open', (e) => {
-// //     console.log(e);
 
-// //     console.log('sse open');
-// // });
-
-// // eventSource.addEventListener('error', (e) => {
-// //     console.log(e);
-
-// //     console.log('sse error');
-// // });
-
-// // eventSource.addEventListener('message', (e) => {
-// //     console.log(e);
-
-// //     console.log('sse message');
-// // });
-
-// chatSend.addEventListener('click', (ev) => {
-//     ev.preventDefault();
-//     const message = chatMessage.value;
-
-//     if(!message) return;
-//     console.log(message);
-//     ws.send(message);
-
-//     chatMessage.value = '';
-// })
-
-// ws.addEventListener('open', (e) => {
-//     console.log(e);
-
-//     console.log('ws open');
-// });
-
-// ws.addEventListener('close', (e) => {
-//     console.log(e);
-
-//     console.log('ws close');
-// });
-
-// ws.addEventListener('error', (e) => {
-//     console.log(e);
-
-//     console.log('ws error');
-// });
-
-// ws.addEventListener('message', (e) => {
-//     console.log(e);
-
-//     const data = JSON.parse(e.data);
-//     const { chat: messages } = data;
-//     // console.log(messages[0]);
-
-//     messages.forEach(message => {
-//         chat.appendChild(document.createTextNode(message + '\n'))
-//     })
-
-//     console.log('ws message');
-// });
