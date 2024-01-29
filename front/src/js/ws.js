@@ -1,6 +1,6 @@
 export default class ForWebSocet {
   constructor(chat, connectionId) {
-    this.ws = new WebSocket('ws://event-sours.onrender.com/ws');
+    this.ws = new WebSocket('wss://event-sours.onrender.com/ws');
     this.chat = chat;
     this.connectionId = connectionId;
     this.createMessage = this.createMessage.bind(this);
