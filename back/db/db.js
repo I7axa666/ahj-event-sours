@@ -1,32 +1,32 @@
 const chatChistory = {
-    data: [],
-    listeners: [],
-    users: {},
-    
-    add(item) {
-        this.data.push(item);
+  data: [],
+  listeners: [],
+  users: {},
 
-        this.listeners.forEach(handler => handler(item));
-    },
+  add(item) {
+    this.data.push(item);
 
-    listen(handler) {
-        this.listeners.push(handler);
-    },
-    
-    addUser (id, chatName) {
-        this.users[id] = chatName;
+    this.listeners.forEach((handler) => handler(item));
+  },
 
-        this.listeners.forEach(handler => handler({
-            conectionID: id,
-            chatName: chatName,
-        }));
-    },
+  listen(handler) {
+    this.listeners.push(handler);
+  },
 
-    deleteUser(id) {
-        delete this.users[id];
+  addUser(id, chatName) {
+    this.users[id] = chatName;
 
-        this.listeners.forEach(handler => handler({deleteId: id}));
-    }
+    this.listeners.forEach((handler) => handler({
+      conectionID: id,
+      chatName,
+    }));
+  },
+
+  deleteUser(id) {
+    delete this.users[id];
+
+    this.listeners.forEach((handler) => handler({ deleteId: id }));
+  },
 };
 
 module.exports = chatChistory;

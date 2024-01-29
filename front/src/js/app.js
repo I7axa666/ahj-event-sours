@@ -1,70 +1,69 @@
-import ForEventSource from "./es";
-import Fetcher from "./fetch";
+import ForEventSource from './es';
+import Fetcher from './fetch';
 import ForWebSocet from './ws';
-const getCurrentDate = require('./currentDate');
-let userName = undefined;
+import getCurrentDate from './currentDate';
 
-const eventSource = new ForEventSource();
-eventSource.init();
+(async () => {
+  let userName;
 
-const fetcher = new Fetcher();
-const users = JSON.parse(await fetcher.getUsers());
+  const eventSource = new ForEventSource();
+  eventSource.init();
 
-// console.log(users);
+  const fetcher = new Fetcher();
 
-const popup = document.querySelector('.popup-container');
-const btn = popup.querySelector('.action-btn');
-const participants = document.querySelector('#participants-list');
-const ul = document.querySelector('ul');
+  const users = JSON.parse(await fetcher.getUsers());
 
-const chat = document.getElementById('chat-window');
-const chatMessage = chat.querySelector('.message');
-const inputMessage = document.querySelector('.input-message');
-const chatSend = document.querySelector('.send-btn');
+  const popup = document.querySelector('.popup-container');
+  const btn = popup.querySelector('.action-btn');
+  const ul = document.querySelector('ul');
 
-ul.innerHTML = '';
+  const chat = document.getElementById('chat-window');
+  const inputMessage = document.querySelector('.input-message');
+  const chatSend = document.querySelector('.send-btn');
 
-for (let key in users) {
+  ul.innerHTML = '';
+
+for (const key in users) { // eslint-disable-line
     const li = document.createElement('li');
     li.id = key;
-    
+
     li.innerHTML = `
         <div class="circle"></div>
         <div class="name">${users[key]}</div>
-    `
+    `;
     document.querySelector('ul').appendChild(li);
-};
+  }
 
-btn.addEventListener('click', (event) => {
+  btn.addEventListener('click', (event) => {
     event.preventDefault();
     userName = popup.querySelector('input').value;
 
-    for (let key in users) {
-        if(users[key] === userName) {
-            document.querySelector('.error').classList.remove('hidden');
-            return;
-        }   
+  for (const key in users) { // eslint-disable-line
+      if (users[key] === userName) {
+        document.querySelector('.error').classList.remove('hidden');
+        return;
+      }
     }
 
     fetcher.sendUserName(eventSource.conectionId, userName);
+  });
 
-})
+  const ws = new ForWebSocet(chat, eventSource.conectionId);
+  ws.init();
 
-const ws = new ForWebSocet(chat, eventSource.conectionId);
-ws.init();
-
-chatSend.addEventListener('click', (ev) => {
+  chatSend.addEventListener('click', (ev) => {
     ev.preventDefault();
     const message = inputMessage.value;
 
-    if(!message) return;
+    if (!message) return;
     // console.log(message);
     ws.sendMessage(JSON.stringify({
-        userName: userName,
-        conectionId: eventSource.conectionId,
-        date: getCurrentDate(),
-        message: message,
+      userName,
+      conectionId: eventSource.conectionId,
+      date: getCurrentDate(),
+      message,
     }));
 
     inputMessage.value = '';
-})
+  });
+})();
