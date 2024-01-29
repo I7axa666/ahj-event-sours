@@ -21,17 +21,26 @@ const wsServer = new WS.Server({
   server
 })
 
-const chat = ['chat start']
+// const chat = [{
+//   conectionId: '1',
+//   message: 'chat start'
+// }]
+
+const chat = []
+
 
 wsServer.on('connection', (ws) => {
   ws.on('message', (message) => {
-    chat.push(message.toString());
-
-    const eventData = JSON.stringify({ chat: [message.toString()] });
+    const chatInfo = JSON.parse(message.toString());
+    chat.push(chatInfo);
+  
+    const eventData = JSON.stringify({ chat: chat });
 
     Array.from(wsServer.clients)
     .filter(client => client.readyState === WS.OPEN)
     .forEach(client => client.send(eventData));
+
+    // console.log(JSON.parse(message.toString()))
 
   })
 

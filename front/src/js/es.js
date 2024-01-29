@@ -4,6 +4,8 @@ export default class ForEventSource {
     constructor() {
         this.eventSource = new EventSource('http://localhost:3000/sse');
         this.conectionId = null;  
+        this.userList = null;
+        this.userName = null;
         
     }
 
@@ -20,35 +22,33 @@ export default class ForEventSource {
     }
 
     showUsers = (e) => {        
-        const userList = JSON.parse(e.data);
-        // console.log(userList);
+        this.userList = JSON.parse(e.data);
         
-        if(!userList.item) {
-            this.conectionId = userList.conectionID
-            // console.log(this.conectionId);
+        if(!this.userList.item) {
+            this.conectionId = this.userList.conectionID
             return;
         };
 
-        if(userList.item.deleteId) {
-            const deletedEl = document.getElementById(`${userList.item.deleteId}`);
+        if(this.userList.item.deleteId) {
+            const deletedEl = document.getElementById(`${this.userList.item.deleteId}`);
 
             if(deletedEl) {
                 deletedEl.remove();
             }
             return;
         }
-        
 
         const ul = document.querySelector('ul');
         const li = document.createElement('li');
-        li.id = userList.item['conectionID'];
+        li.id = this.userList.item['conectionID'];
+
+        this.userName = this.userList.item['chatName'];
              
         li.innerHTML = `
             <div class="circle"></div>
-            <div class="name">${userList.item['chatName']}</div>
+            <div class="name">${ this.userName}</div>
         `
-            
-
+        
         ul.appendChild(li);
 
         document.querySelector('.popup-container').classList.add('hidden');

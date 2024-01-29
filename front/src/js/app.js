@@ -1,6 +1,8 @@
 import ForEventSource from "./es";
 import Fetcher from "./fetch";
-import ForWebSocet from './ws'
+import ForWebSocet from './ws';
+const getCurrentDate = require('./currentDate');
+let userName = undefined;
 
 const eventSource = new ForEventSource();
 eventSource.init();
@@ -35,7 +37,7 @@ for (let key in users) {
 
 btn.addEventListener('click', (event) => {
     event.preventDefault();
-    const userName = popup.querySelector('input').value;
+    userName = popup.querySelector('input').value;
 
     for (let key in users) {
         if(users[key] === userName) {
@@ -48,7 +50,7 @@ btn.addEventListener('click', (event) => {
 
 })
 
-const ws = new ForWebSocet(chat);
+const ws = new ForWebSocet(chat, eventSource.conectionId);
 ws.init();
 
 chatSend.addEventListener('click', (ev) => {
@@ -57,14 +59,12 @@ chatSend.addEventListener('click', (ev) => {
 
     if(!message) return;
     // console.log(message);
-    ws.sendMessage(message);
+    ws.sendMessage(JSON.stringify({
+        userName: userName,
+        conectionId: eventSource.conectionId,
+        date: getCurrentDate(),
+        message: message,
+    }));
 
     inputMessage.value = '';
 })
-
-
-
-
-
-
-

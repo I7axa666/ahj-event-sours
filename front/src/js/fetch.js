@@ -29,12 +29,12 @@ export default class Fetcher {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
-            },            
-          });
+          },            
+        });
       
-          const result = await request.text();
+        const result = await request.text();
         //   console.log(result);
-          return result
+        return result
           
     };
 }
