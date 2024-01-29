@@ -1,6 +1,6 @@
 export default class ForEventSource {
   constructor() {
-    this.eventSource = new EventSource('http://localhost:3000/sse');
+    this.eventSource = new EventSource('https://event-sours.onrender.com/sse');
     this.conectionId = null;
     this.userList = null;
     this.userName = null;
