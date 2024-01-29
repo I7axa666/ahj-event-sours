@@ -1,5 +1,152 @@
-.sub {
-    white-space: pre;
+body, ul {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    font-style: none;
+
 }
+
+.chat-container {
+
+    width: 800px;
+    height: 400px;
+    display: flex;
+    flex-grow: 1;
+
+    float:inline-end;
+    z-index: 1;
+
+}
+
+#participants-list {
+    width: 200px;
+    height:fit-content;
+    background-color: #f1f1f1;
+    padding: 10px;
+    overflow-y: auto;
+
+    margin-top: 50px;
+    border-radius: 10px;
+    flex-direction: row;
+}
+
+li {
+    display: flex;
+    flex-direction: row;
+
+    margin-bottom: 10px;
+}
+
+.circle {
+    width: 30px;
+    height: 30px;
+    border: 2px solid black;
+    border-radius: 50%;
+
+    margin-right: 5px;
+}
+
+.name {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.chat {
+    width: 100%;
+}
+
+#chat-window {
+    min-height: 100px;
+    max-height: 400px;
+    flex-grow: 1;
+    overflow-y: scroll;
+
+    padding: 10px;
+    margin-top: 20px;
+
+    border: 2px solid gray;
+    border-radius: 10px;
+}
+
+.message {
+    max-width: 60%;
+    margin-bottom: 5px;
+    padding: 5px;
+    border-radius: 10px;
+    word-wrap: break-word;
+}
+
+.user-message {
+    background-color: #4CAF50;
+    color: #fff;
+    margin-left: auto;
+}
+
+.participant-message {
+    background-color: #ddd;
+}
+
+.user-message>strong {
+    color: red;
+}
+
+strong, span {
+    font-size: 12px;
+}
+
+span {
+    margin-left: 10px;
+}
+
+.btn-container {
+    margin-top: 10px;
+    text-align: center;
+}
+
+input[type="text"] {
+    width: 80%;
+}
+
+.popup-container {
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+
+    text-align: center;
+
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    z-index: 10;
+}
+
+.popup-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.input-field {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.error {
+    margin: 0;
+    color: red;
+    
+}
+
+.hidden {
+    display: none;
+}
+
 
 /*# sourceMappingURL=main.css.map*/
